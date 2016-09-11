@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Página de Inicio</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+        <h:outputStylesheet library="css" name="font-awesome.min.css"/>
+        <h:outputScript library="js" name="bootstrap.min.js"/>
+        <h:outputScript library="js/LfIE9" name="jquery.min.js"/>
+        <h:outputStylesheet library="css" name="toastr.min.css"/>
+        <h:outputScript library="js" name="toastr.min.js"/>
+        <h:outputScript library="js/custom" name="mens.js"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+
+    </h:head>
+    <h:body>
+        <div class="row">
+            <div class="col-md-4 col-xs-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Formulario</div>
+                    <div class="panel-body">
+                        <h:form id="FormAlum">
+                            <h:inputHidden id="codi" value="#{alumnosBean.objeAlum.codiAlum}" />
+                            <div class="form-group">
+                                <h:outputLabel  for="nomb" value="Nombre: "/>
+                                <h:inputText id="nomb" value="#{alumnosBean.objeAlum.nombAlum}" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel  for="apel" value="Apellido: "/>
+                                <h:inputText id="apel" value="#{alumnosBean.objeAlum.apelAlum}" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel  for="fechNaci" value="Fecha Nacimiento: "/>
+                                <h:inputText id="fechNaci" value="#{alumnosBean.objeAlum.fechNaciAlum}" class="form-control">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel  for="mail" value="E-mail: "/>
+                                <h:inputText id="mail" value="#{alumnosBean.objeAlum.mailAlum}" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel  for="tele" value="Teléfono: "/>
+                                <h:inputText id="tele" value="#{alumnosBean.objeAlum.teleAlum}" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel  for="dire" value="Dirección: "/>
+                                <h:inputText id="dire" value="#{alumnosBean.objeAlum.direAlum}" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel  for="gene" value="Género: "/>
+                                <h:selectOneMenu id="gene" value="#{alumnosBean.objeAlum.geneAlum}" class="form-control">
+                                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                                    <f:selectItem itemValue="F" itemLabel="Femenino"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group">
+                                <div style="display: inline-block">
+                                    <h:commandLink id="btonGuar" class="btn btn-primary">
+                                        <p:ajax listener="#{alumnosBean.guar()}" process="@form" update="@form :FormTabl:ContAlum"/>
+                                        <i class="fa fa-save"/> Guardar
+                                    </h:commandLink>
+                                </div>
+                                <div style="display: inline-block">
+                                    <h:commandLink id="btonModi" class="btn btn-success">
+                                        <p:ajax listener="#{alumnosBean.modi()}" process="@form" update="@form :FormTabl:ContAlum"/>
+                                        <i class="fa fa-pencil"/> Modificar
+                                    </h:commandLink>
+                                </div>
+                                <div style="display: inline-block">
+                                    <h:commandLink id="btonElim" class="btn btn-danger">
+                                        <p:ajax listener="#{alumnosBean.elim(alumnosBean.objeAlum.codiAlum)}" process="@form" update="@form :FormTabl:ContAlum"/>
+                                        <i class="fa fa-trash-o"/> Eliminar
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-xs-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Tabla de Datos</div>
+                    <div class="panel-body">
+                        <h:form id="FormTabl">
+                            <h:panelGroup id="ContAlum">
+                                <h:dataTable var="fila" value="#{alumnosBean.alumList}" class="table table-responsive table-striped table-hover">
+                                    <h:column>
+                                        <f:facet name="header">Código</f:facet>
+                                        <h:outputText value="#{fila.codiAlum}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{fila.nombAlum}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Apellido</f:facet>
+                                        <h:outputText value="#{fila.apelAlum}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Correo electrónico</f:facet>
+                                        <h:outputText value="#{fila.mailAlum}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Consultar</f:facet>
+                                        <h:outputLink>
+                                                <h:selectBooleanCheckbox id="btonCons" class="checkbox">
+                                                    <p:ajax listener="#{alumnosBean.cons(fila.codiAlum)}" process="@form" update="@form :FormAlum"/>
+                                                </h:selectBooleanCheckbox> 
+                                        </h:outputLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
